@@ -1,364 +1,294 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restromind.ai - Intelligent Restaurant Forecasting</title>
-    <!-- Tailwind CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <!-- FontAwesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- EmailJS SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; scroll-behavior: smooth;}
-        .hero-bg { background: linear-gradient(135deg, #1a2b47 0%, #0d1a2f 50%, #1a2b47 100%);}
-        .gradient-text { background: linear-gradient(90deg, #00b8a9, #7ed6df); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;}
-        .feature-card { transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 8px 32px rgba(31,38,135,0.12); background:rgba(255,255,255,0.16); backdrop-filter: blur(6px);}
-        .feature-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 24px 64px rgba(31,38,135,0.18);}
-        .btn-primary { background: linear-gradient(135deg, #00b8a9, #00a599);}
-        .btn-primary:hover { background: linear-gradient(135deg, #00a599, #009688); transform: translateY(-2px) scale(1.04);}
-        .stats-counter { font-size: 3rem; font-weight: bold; color: #00b8a9;}
-        .floating-animation { animation: float 6s ease-in-out infinite;}
-        @keyframes float {0%,100%{transform:translateY(0px);} 50%{transform:translateY(-20px);}}
-        .pulse-animation { animation: pulse 2s infinite;}
-        @keyframes pulse {0%,100%{opacity:1;} 50%{opacity:0.7;}}
-        .glass { background: rgba(255,255,255,0.14); box-shadow: 0 8px 32px rgba(31,38,135,0.14); backdrop-filter: blur(8px); border-radius: 16px;}
-        .carousel-3d img { border-radius: 18px; box-shadow: 0 8px 40px rgba(40,60,100,0.15);}
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Restromind.ai — Predict Sales, Plan Smarter</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    :root {
+      --primary: #FF544D;
+      --secondary: #022B3A;
+      --accent: #00A6FB;
+      --light-bg: rgba(255,255,255,0.05);
+      --glass-bg: rgba(255,255,255,0.10);
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      background: var(--secondary);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    nav {
+      /* semi-transparent header */
+      background: rgba(2, 43, 58, 0.2);
+      /* alternatively, keep using the CSS variable with opacity */
+      /* background: var(--secondary); opacity: 0.8; */
+    }
+    .hero { position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; }
+    .hero video.bg { position: absolute; top: 41%; left: 50%; width: 100%; height: 100%; object-fit: cover; transform: translate(-50%, -50%); z-index: -1; filter: brightness(0.6) saturate(1.2); }
+    .gradient-text { background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .btn-primary { background: linear-gradient(135deg, var(--primary), var(--accent)); transition: transform .3s, box-shadow .3s; }
+    .btn-primary:hover { transform: translateY(-4px) scale(1.05); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
+    .feature-card { background: var(--glass-bg); backdrop-filter: blur(10px); border-radius: 16px; transform-style: preserve-3d; transition: transform .5s, box-shadow .5s; }
+    .feature-card:hover { transform: rotateY(15deg) rotateX(10deg) scale(1.05); box-shadow: 0 24px 60px rgba(0,0,0,0.4); }
+    .glass { background: var(--light-bg); backdrop-filter: blur(8px); border-radius: 16px; }
+    .stats-counter { font-size: 3rem; font-weight: bold; background: linear-gradient(90deg, var(--accent), var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    select {
+      background: var(--light-bg) !important;
+      color: white;
+      border-color: rgba(255,255,255,0.3);
+    }
+    select option {
+      background: var(--secondary);
+      color: white;
+    }
+  </style>
 </head>
-<body class="bg-gray-50">
+<body>
+  <!-- NAVBAR -->
+  <nav class="fixed w-full z-30 top-0">
+    <div class="flex justify-start items-center py-4 px-6 lg:px-12">
+      <!-- Moved content to left with slight padding -->
+      <img src="/IMG_20250615_131133_541.PNG" alt="Logo" class="h-12 mr-4">
+      <span class="text-2xl gradient-text font-bold">Restromind<span class="text-white">.ai</span></span>
+    </div>
+  </nav>
 
-    <!-- Navbar with logo -->
-    <nav class="bg-gray-900 py-3">
-        <div class="container mx-auto flex items-center">
-            <img src="\IMG_20250615_131133_541.PNG" alt="Restromind Logo" class="h-14 mr-3 rounded-xl shadow-lg bg-white p-1">
-            <span class="text-2xl gradient-text font-bold">Restromind<span class="text-white">.ai</span></span>
+  <!-- HERO -->
+  <section class="hero mt-16">
+    <video class="bg" autoplay loop muted>
+      <source src="/bg.mp4" type="video/mp4">
+    </video>
+    <div class="container mx-auto px-6 lg:px-12 relative z-10">
+      <h1 class="text-5xl lg:text-8xl font-extrabold mb-6 gradient-text">Predict Sales.<br>Plan Smarter.<br>Eliminate Wastage.</h1>
+      <p class="text-xl lg:text-2xl mb-8">Intelligent AI-Powered Forecasting for Restaurants</p>
+      <a href="#form" class="btn-primary text-white px-10 py-4 rounded-full text-lg font-semibold inline-block">Get Your Free Demo <i class="fas fa-arrow-right ml-2"></i></a>
+    </div>
+  </section>
+
+  <!-- CHALLENGES -->
+  <section class="py-20">
+    <div class="container mx-auto px-6 lg:px-12 text-center mb-12">
+      <h2 class="text-4xl font-bold gradient-text mb-4">The Challenges Restaurants Face</h2>
+      <p class="text-lg text-gray-300 max-w-3xl mx-auto">Restaurant owners struggle with unpredictable operations leading to losses and missed opportunities.</p>
+    </div>
+    <div class="container mx-auto px-6 lg:px-12 grid md:grid-cols-3 gap-8">
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-chart-line text-3xl mb-4 gradient-text"></i>
+        <h3 class="text-2xl font-semibold mb-2">Unpredictable Sales</h3>
+        <p>Food waste and lost revenue due to inaccurate demand forecasts.</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-users text-3xl mb-4 gradient-text"></i>
+        <h3 class="text-2xl font-semibold mb-2">Inefficient Staffing</h3>
+        <p>Over- or understaffing leading to higher labor costs.</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-utensils text-3xl mb-4 gradient-text"></i>
+        <h3 class="text-2xl font-semibold mb-2">Menu Blindness</h3>
+        <p>No insights into menu performance and customer tastes.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="py-20 bg-secondary">
+    <div class="container mx-auto px-6 lg:px-12 text-center mb-12">
+      <h2 class="text-4xl font-bold gradient-text mb-4">Restromind.ai: Your AI Advantage</h2>
+      <p class="text-lg text-gray-300 max-w-2xl mx-auto">Transform operations with real-time forecasting and actionable insights.</p>
+    </div>
+    <div class="container mx-auto px-6 lg:px-12 grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-chart-pie text-4xl mb-4 gradient-text"></i>
+        <h3 class="text-xl font-semibold mb-2">Precision Forecasting</h3>
+        <p>Item-level, hour-by-hour sales predictions.</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-cogs text-4xl mb-4 gradient-text"></i>
+        <h3 class="text-xl font-semibold mb-2">Operational Efficiency</h3>
+        <p>Optimize inventory, prep, and staffing.</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-robot text-4xl mb-4 gradient-text"></i>
+        <h3 class="text-xl font-semibold mb-2">AI Virtual Steward</h3>
+        <p>24/7 customer assistance bot.</p>
+      </div>
+      <div class="feature-card p-6 text-center">
+        <i class="fas fa-sync-alt text-4xl mb-4 gradient-text"></i>
+        <h3 class="text-xl font-semibold mb-2">Seamless Integration</h3>
+        <p>Instant POS & kitchen sync.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT VIDEO -->
+  <section class="py-20">
+    <div class="container mx-auto px-6 lg:px-12 text-center mb-12">
+      <h2 class="text-4xl font-bold gradient-text mb-6">See Restromind in Action</h2>
+      <div class="max-w-3xl mx-auto">
+        <video controls class="w-full rounded-lg shadow-lg">
+          <source src="/RestromindAi final - Made with Clipchamp.mp4" type="video/mp4">
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI -->
+  <section class="py-20 bg-secondary">
+    <div class="container mx-auto px-6 lg:px-12 text-center mb-8">
+      <h2 class="text-4xl font-bold gradient-text mb-4">Tangible Results You Can Expect</h2>
+    </div>
+    <div class="container mx-auto px-6 lg:px-12 grid md:grid-cols-4 gap-8 text-center">
+      <div class="glass p-6">
+        <div class="stats-counter">93%+</div>
+        <p class="mt-2">Food Waste Reduced</p>
+      </div>
+      <div class="glass p-6">
+        <div class="stats-counter">20%</div>
+        <p class="mt-2">Lower Labor Costs</p>
+      </div>
+      <div class="glass p-6">
+        <div class="stats-counter">15%</div>
+        <p class="mt-2">Revenue Increase</p>
+      </div>
+      <div class="glass p-6">
+        <div class="stats-counter">3-6</div>
+        <p class="mt-2">Months to ROI</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="py-20">
+    <div class="container mx-auto px-6 lg:px-12 text-center mb-8">
+      <h2 class="text-4xl font-bold gradient-text mb-4">Simple Steps to Smarter Ops</h2>
+    </div>
+    <div class="container mx-auto px-6 lg:px-12 grid md:grid-cols-4 gap-8 text-center">
+      <div class="glass p-6"><div class="text-2xl font-bold mb-2">1</div><p>Connect POS & sales history</p></div>
+      <div class="glass p-6"><div class="text-2xl font-bold mb-2">2</div><p>AI Pattern Analysis</p></div>
+      <div class="glass p-6"><div class="text-2xl font-bold mb-2">3</div><p>Actionable Insights Delivered</p></div>
+      <div class="glass p-6"><div class="text-2xl font-bold mb-2">4</div><p>Scale Profitably</p></div>
+    </div>
+  </section>
+
+  <!-- LEAD FORM -->
+  <section id="form" class="py-20 bg-gradient-to-b from-secondary to-secondary/90">
+    <div class="container mx-auto px-6 lg:px-12 max-w-2xl">
+      <h2 class="text-4xl font-bold gradient-text mb-6 text-center">Ready to Transform Your Restaurant?</h2>
+      <form id="demoForm" class="grid md:grid-cols-2 gap-6 bg-light-bg p-8 rounded-xl backdrop-blur-md">
+        <div>
+          <label for="fullName" class="block text-sm font-medium text-white mb-2">Full Name *</label>
+          <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white" placeholder="Your Name">
         </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="hero-bg text-white min-h-screen flex items-center relative">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <div class="text-center lg:text-left">
-                    <img src="\IMG_20250615_131133_541.PNG" class="w-36 mx-auto lg:ml-0 mb-2 rounded-2xl shadow-2xl bg-white" alt="Restromind logo">
-                    <h1 class="text-5xl lg:text-6xl font-bold mb-6">
-                        <span class="gradient-text">Predict Sales.</span><br>
-                        <span class="gradient-text">Plan Smarter.</span><br>
-                        <span class="gradient-text">Waste Less.</span>
-                    </h1>
-                    <div class="mb-4">
-                        <span class="inline-block px-5 py-2 rounded-full bg-white/10 border border-teal-400 text-lg font-semibold text-teal-200 shadow-lg backdrop-blur-xl">
-                            <i class="fas fa-seedling text-xl mr-2 text-green-300"></i>
-                            <b>Food wastage reduced upwards of <span class="text-green-300">80%</span></b>
-                        </span>
-                    </div>
-                    <p class="text-xl lg:text-2xl mb-8 text-gray-300">
-                        Intelligent AI-Powered Forecasting for Restaurants
-                    </p>
-                    <p class="text-lg mb-10 text-gray-400">
-                        Say goodbye to guesswork and hello to profitability with Restromind.ai's advanced restaurant management solution.
-                    </p>
-                    <!-- HERO BUTTON: scrolls to form -->
-                    <a href="#form" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold inline-block">
-                        Get Your Free Demo <i class="fas fa-arrow-right ml-2"></i>
-                    </a>
-                </div>
-                <div class="text-center">
-                    <div class="floating-animation parallax mb-6">
-                        <!-- 3D carousel -->
-                        <div class="carousel-3d relative">
-                            <div class="overflow-hidden rounded-2xl shadow-2xl">
-                                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=600&q=80" class="w-full" alt="3D Fixture 1">
-                            </div>
-                            <div class="mt-3 flex space-x-2 justify-center">
-                                <img src="https://wallpaperaccess.com/full/3014622.jpg" class="w-16 h-10 object-cover rounded-lg shadow" alt="3D Fixture 2">
-                                <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=150&q=80" class="w-16 h-10 object-cover rounded-lg shadow" alt="3D Fixture 3">
-                            </div>
-                            <div class="text-xs text-gray-300 mt-1"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div>
+          <label for="restaurantName" class="block text-sm font-medium text-white mb-2">Restaurant Name *</label>
+          <input type="text" id="restaurantName" name="restaurantName" required class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white" placeholder="Your Restaurant">
         </div>
-    </section>
-
-    <!-- Problem Statement -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-6">The Challenges Restaurants Face</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Restaurant owners struggle with unpredictable operations that lead to significant losses and missed opportunities.
-                </p>
-            </div>
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="text-center p-6 feature-card rounded-xl">
-                    <div class="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-chart-line text-3xl text-red-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Unpredictable Sales</h3>
-                    <p class="text-gray-600">Food waste and lost revenue due to inaccurate demand forecasting</p>
-                </div>
-                <div class="text-center p-6 feature-card rounded-xl">
-                    <div class="w-20 h-20 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-users text-3xl text-orange-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Inefficient Staffing</h3>
-                    <p class="text-gray-600">Over or understaffing leading to increased labor costs and poor service</p>
-                </div>
-                <div class="text-center p-6 feature-card rounded-xl">
-                    <div class="w-20 h-20 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <i class="fas fa-utensils text-3xl text-yellow-600"></i>
-                    </div>
-                    <h3 class="text-xl font-semibold mb-4 text-gray-800">Menu Blindness</h3>
-                    <p class="text-gray-600">Lack of insights into menu performance and customer preferences</p>
-                </div>
-            </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-white mb-2">Email Address *</label>
+          <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white" placeholder="you@example.com">
         </div>
-    </section>
-
-    <!-- Solution Section (All features) -->
-    <section class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-6">Restromind.ai: Your AI-Powered Advantage</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Transform your restaurant operations with intelligent forecasting and data-driven insights.
-                </p>
-            </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div class="feature-card bg-white p-6 rounded-lg shadow-lg">
-                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-chart-pie text-2xl text-blue-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Precision Forecasting</h3>
-                    <p class="text-gray-600">Hourly sales prediction down to individual menu items</p>
-                </div>
-                <div class="feature-card bg-white p-6 rounded-lg shadow-lg">
-                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-cogs text-2xl text-green-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Operational Efficiency</h3>
-                    <p class="text-gray-600">Optimize inventory, prep, and staffing based on AI insights</p>
-                </div>
-                <div class="feature-card bg-white p-6 rounded-lg shadow-lg">
-                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-robot text-2xl text-purple-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">AI Virtual Steward</h3>
-                    <p class="text-gray-600">24/7 customer assistance for recommendations and FAQs</p>
-                </div>
-                <div class="feature-card bg-white p-6 rounded-lg shadow-lg">
-                    <div class="w-16 h-16 bg-teal-100 rounded-full flex items-center justify-center mb-6">
-                        <i class="fas fa-sync-alt text-2xl text-teal-600"></i>
-                    </div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Seamless Integration</h3>
-                    <p class="text-gray-600">Real-time POS & kitchen integration for instant data sync</p>
-                </div>
-            </div>
+        <div>
+          <label for="phone" class="block text-sm font-medium text-white mb-2">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white" placeholder="+91 12345 67890">
         </div>
-    </section>
-
-    <!-- Benefits & ROI Section -->
-    <section class="py-20 bg-white">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-6">Tangible Results You Can Expect</h2>
-                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
-                    Our clients see measurable improvements in efficiency and profitability within months.
-                </p>
-            </div>
-            <div class="grid md:grid-cols-4 gap-8 text-center">
-                <div class="p-6 glass">
-                    <div class="stats-counter pulse-animation">80%+</div>
-                    <p class="text-lg font-semibold text-gray-800 mt-2">Reduction in Food Waste</p>
-                </div>
-                <div class="p-6 glass">
-                    <div class="stats-counter pulse-animation">20%</div>
-                    <p class="text-lg font-semibold text-gray-800 mt-2">Decrease in Labor Costs</p>
-                </div>
-                <div class="p-6 glass">
-                    <div class="stats-counter pulse-animation">15%</div>
-                    <p class="text-lg font-semibold text-gray-800 mt-2">Increase in Revenue</p>
-                </div>
-                <div class="p-6 glass">
-                    <div class="stats-counter pulse-animation">3-6</div>
-                    <p class="text-lg font-semibold text-gray-800 mt-2">Months to ROI</p>
-                </div>
-            </div>
+        <div>
+          <label for="locations" class="block text-sm font-medium text-white mb-2">Number of Locations</label>
+          <select id="locations" name="locations" class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white">
+            <option>1 Location</option>
+            <option>2-5 Locations</option>
+            <option>6-10 Locations</option>
+            <option>10+ Locations</option>
+          </select>
         </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="py-20 bg-gray-100">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-bold text-gray-800 mb-6">Simple Steps to Smarter Operations</h2>
-            </div>
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="text-center glass p-6 shadow-2xl">
-                    <div class="w-20 h-20 bg-blue-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">1</div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Connect Data</h3>
-                    <p class="text-gray-600">Integrate your POS and historical sales data</p>
-                </div>
-                <div class="text-center glass p-6 shadow-2xl">
-                    <div class="w-20 h-20 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">2</div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">AI Learns</h3>
-                    <p class="text-gray-600">Our AI analyzes patterns and trends</p>
-                </div>
-                <div class="text-center glass p-6 shadow-2xl">
-                    <div class="w-20 h-20 bg-purple-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">3</div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Optimize</h3>
-                    <p class="text-gray-600">Receive actionable insights and recommendations</p>
-                </div>
-                <div class="text-center glass p-6 shadow-2xl">
-                    <div class="w-20 h-20 bg-teal-500 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-2xl font-bold">4</div>
-                    <h3 class="text-lg font-semibold mb-3 text-gray-800">Grow</h3>
-                    <p class="text-gray-600">Watch your profits and efficiency soar</p>
-                </div>
-            </div>
+        <div>
+          <label for="revenue" class="block text-sm font-medium text-white mb-2">Annual Revenue</label>
+          <select id="revenue" name="revenue" class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white">
+            <option value="">Select Range</option>
+            <option value="under-25L">Under ₹25L</option>
+            <option value="25-50L">₹25–50L</option>
+            <option value="50L-1Cr">₹50L–1Cr</option>
+            <option value="1-5Cr">₹1–5Cr</option>
+            <option value="5Cr+">₹5Cr+</option>
+          </select>
         </div>
-    </section>
-
-    <!-- Lead Capture Form Section -->
-    <section id="form" class="py-20 form-container">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="max-w-4xl mx-auto">
-                <div class="text-center mb-12">
-                    <h2 class="text-4xl font-bold text-gray-800 mb-6">Ready to Transform Your Restaurant?</h2>
-                    <p class="text-xl text-gray-600">
-                        Get a personalized demo and see how Restromind.ai can boost your profitability.
-                    </p>
-                </div>
-                <div class="bg-white rounded-lg shadow-xl p-8 lg:p-12">
-                    <form id="demoForm" class="grid md:grid-cols-2 gap-6">
-                        <div>
-                            <label for="fullName" class="block text-sm font-medium text-gray-700 mb-2">Full Name *</label>
-                            <input type="text" id="fullName" name="fullName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <label for="restaurantName" class="block text-sm font-medium text-gray-700 mb-2">Restaurant Name *</label>
-                            <input type="text" id="restaurantName" name="restaurantName" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Email Address *</label>
-                            <input type="email" id="email" name="email" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <label for="phone" class="block text-sm font-medium text-gray-700 mb-2">Phone Number *</label>
-                            <input type="tel" id="phone" name="phone" required class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                        </div>
-                        <div>
-                            <label for="locations" class="block text-sm font-medium text-gray-700 mb-2">Number of Locations</label>
-                            <select id="locations" name="locations" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                                <option value="1">1 Location</option>
-                                <option value="2-5">2-5 Locations</option>
-                                <option value="6-10">6-10 Locations</option>
-                                <option value="10+">10+ Locations</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="revenue" class="block text-sm font-medium text-gray-700 mb-2">Annual Revenue (INR)</label>
-                            <select id="revenue" name="revenue" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent">
-                                <option value="">Select Range</option>
-                                <option value="under-25L">Under ₹25 Lakhs</option>
-                                <option value="25-50L">₹25–50 Lakhs</option>
-                                <option value="50L-1Cr">₹50 Lakhs – 1 Crore</option>
-                                <option value="1-5Cr">₹1 – 5 Crore</option>
-                                <option value="5Cr+">₹5 Crore +</option>
-                            </select>
-                        </div>
-                        <div class="md:col-span-2">
-                            <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Questions or Comments</label>
-                            <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent" placeholder="Tell us about your specific challenges or questions..."></textarea>
-                        </div>
-                        <div class="md:col-span-2 text-center mt-4">
-                            <button href="https://restromind.thinkneural.ai/" type="submit" class="btn-primary text-white px-12 py-4 rounded-full text-lg font-semibold">
-                                Submit & Get My Free Demo <i class="fas fa-rocket ml-2"></i>
-                            </button>
-                        </div>
-                    </form>
-                    <div class="md:col-span-2 text-center mt-6">
-                        <!-- <a href="https://restromind.thinkneural.ai/" target="_blank" rel="noopener"
-                           class="btn-primary text-white px-12 py-4 rounded-full text-lg font-semibold inline-block">
-                            Go to Instant Demo Page <i class="fas fa-rocket ml-2"></i>
-                        </a> -->
-                        <div id="formStatus" class="text-center mt-4"></div>
-                        <p class="text-sm text-gray-500 mt-4">
-                            We respect your privacy. Your information will never be shared.
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="md:col-span-2">
+          <label for="message" class="block text-sm font-medium text-white mb-2">Questions or Comments</label>
+          <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border border-gray-600 rounded-lg focus:ring-2 focus:ring-accent bg-transparent text-white" placeholder="Tell us…"></textarea>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-12">
-        <div class="container mx-auto px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-8">
-                <div>
-                    <h3 class="text-2xl font-bold mb-4 gradient-text">Restromind.ai</h3>
-                    <p class="text-gray-400">Intelligent restaurant forecasting for the modern food service industry.</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Contact Us</h4>
-                    <p class="text-gray-400 mb-2"><i class="fas fa-envelope mr-2"></i> sales@tneuralai.com</p>
-                    <p class="text-gray-400 mb-2"><i class="fas fa-phone mr-2"></i> +91 97455 99900</p>
-                    <p class="text-gray-400"><i class="fas fa-globe mr-2"></i>www.thinkneural.ai/</p>
-                </div>
-                <div>
-                    <h4 class="text-lg font-semibold mb-4">Follow Us</h4>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-linkedin text-2xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter text-2xl"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook text-2xl"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
-                <p class="text-gray-400">&copy; 2025 Restromind.ai. All rights reserved.</p>
-            </div>
+        <div class="md:col-span-2 text-center mt-4">
+          <button type="submit" id="submitBtn" class="btn-primary text-white px-12 py-4 rounded-full text-lg font-semibold">
+            <span id="submitText">Request Your Free Demo</span>
+            <i id="submitIcon" class="fas fa-rocket ml-2"></i>
+          </button>
         </div>
-    </footer>
+      </form>
+      <div id="formStatus" class="mt-6 text-center"></div>
+    </div>
+  </section>
 
-    <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({behavior: 'smooth'});
-            });
-        });
+  <!-- FOOTER -->
+  <footer class="bg-secondary text-white py-12 opacity-75">
+    <div class="container mx-auto px-6 lg:px-12 grid md:grid-cols-3 gap-8">
+      <div class="text-left">
+        <h3 class="text-2xl font-bold mb-4 gradient-text">Restromind.ai</h3>
+        <p>Intelligent restaurant forecasting for the modern food service industry.</p>
+      </div>
+      <div class="text-left">
+        <h4 class="text-xl font-semibold mb-4">Contact Us</h4>
+        <p class="mb-2"><i class="fas fa-envelope mr-2"></i>sales@tneuralai.com</p>
+        <p class="mb-2"><i class="fas fa-phone mr-2"></i>+91 97455 99900</p>
+        <p><i class="fas fa-globe mr-2"></i><a href="https://thinkneural.ai/">thinkneural.ai</a></p>
+      </div>
+      <div>
+        <h4 class="text-xl font-semibold mb-4">Follow Us</h4>
+        <div class="flex space-x-4 text-2xl">
+          <a href="https://www.linkedin.com/company/thinkneural-ai/"><i class="fab fa-linkedin"></i></a>
+          <a href="https://www.instagram.com/reel/DLX4ugEyxGt/?igsh=MXhwYjczNGRmYmlwMw=="><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-gray-700 mt-8 pt-4 text-center">
+      <p>&copy; 2025 Restromind.ai. All rights reserved.</p>
+    </div>
+  </footer>
 
-        // EmailJS setup
-        emailjs.init("thinkneuralai@gmail.com"); // <-- Replace with your EmailJS user ID
-
-        document.getElementById('demoForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const now = new Date();
-            const formData = {
-                fullName: document.getElementById('fullName').value,
-                restaurantName: document.getElementById('restaurantName').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                locations: document.getElementById('locations').value,
-                revenue: document.getElementById('revenue').value,
-                message: document.getElementById('message').value,
-                datetime: now.toLocaleString()
-            };
-
-            emailjs.send("YOUR_EMAILJS_SERVICE_ID", "YOUR_EMAILJS_TEMPLATE_ID", formData)
-            .then(function(response) {
-                document.getElementById('formStatus').innerHTML = "<span class='text-green-600 font-bold'>Thank you! We'll contact you soon.</span>";
-                document.getElementById('demoForm').reset();
-            }, function(error) {
-                document.getElementById('formStatus').innerHTML = "<span class='text-red-600 font-bold'>Failed to send. Please try again later.</span>";
-            });
-        });
-    </script>
+  <!-- SCRIPTS including Smooth Scroll & EmailJS handler -->
+  <script>
+    document.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+    }));
+    emailjs.init('nlLq5Z9o1goewSq2G');
+    document.getElementById('demoForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const txt = document.getElementById('submitText');
+      const icon = document.getElementById('submitIcon');
+      const statusEl = document.getElementById('formStatus');
+      btn.disabled = true;
+      txt.textContent = 'Sending...'; icon.className = 'fas fa-spinner fa-spin ml-2';
+      const data = {
+        to_email: 'thinkneuralai@gmail.com',
+        full_name: this.fullName.value,
+        restaurant_name: this.restaurantName.value,
+        email: this.email.value,
+        phone: this.phone.value,
+        locations: this.locations.value,
+        revenue: this.revenue.value,
+        message: this.message.value || 'No message',
+        datetime: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })
+      };
+      emailjs.send('service_aw5flvk','template_ow2rnb8', data)
+        .then(_ => { statusEl.innerHTML = '<div class="bg-green-100 text-green-800 px-4 py-3 rounded-lg"><i class="fas fa-check-circle mr-2"></i>Success! We’ll contact you soon.</div>'; this.reset(); setTimeout(() => location.href = '/home.html', 2000); })
+        .catch(err => { statusEl.innerHTML = '<div class="bg-red-100 text-red-800 px-4 py-3 rounded-lg"><i class="fas fa-exclamation-circle mr-2"></i>Error: ' + (err.text || err.message) + '</div>'; })
+        .finally(_ => { btn.disabled = false; txt.textContent = 'Request Your Free Demo'; icon.className = 'fas fa-rocket ml-2'; });
+    });
+  </script>
 </body>
 </html>
